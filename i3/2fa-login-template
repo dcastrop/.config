@@ -1,0 +1,12 @@
+#!/bin/zsh 
+
+# ~/.local/bin/<whatever>-login
+
+## Uncomment & tweak
+# CODE=`oathtool -b --totp=SHA1 <CODE>` #Github 
+# CODE=`oathtool --base32 --totp <CODE> -d 6`  #Kent
+# ETC
+
+echo $CODE | xclip
+
+zenity --notification --text="Code '$CODE' copied to clipboard"
