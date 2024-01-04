@@ -38,6 +38,10 @@ then
             # Battery very low. Red color.
             BAT_COLOR="#FA1E44"
         fi
+        if [ "${BAT_LEVEL%?}" -le 6 ]
+        then
+            zenity  --notification --title "alert" --text "NENO ENCHUFA LA CHISMA ESTA: ${BATTERY_ALERT}\!\!\!\!\!"
+        fi
     fi 
     echo "${BAT_ICON}${BAT_LEVEL} ${TIME_INFO}"
     # Print the short text.

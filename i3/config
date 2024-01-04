@@ -36,7 +36,7 @@ bindsym $mod+Return exec $term
 bindsym $mod+Shift+Return exec $term --working-directory $(xcwd)
 
 # kill focused window
-bindsym $mod+Shift+q kill
+bindsym $mod+Shift+q split toggle, kill
 
 # start dmenu (a program launcher)
 bindsym $mod+d exec dmenu_run
@@ -215,12 +215,12 @@ mode "$mode_printscreen" {
 bindsym Print mode "$mode_printscreen"
 
 # Start commonly used tools
-set $mode_start (e) Emacs; (d) Discord; (c) Chrome; (i) Chrome (incognito) (m) Thunderbird; (t) Teams; and (z) Zoom
+set $mode_start (e) Emacs; (d) Discord; (c) Brave ; (i) Brave (incognito) (m) Thunderbird; (t) Teams; and (z) Zoom
 mode "$mode_start" {
     bindsym e exec --no-startup-id emacs, mode "default"
     bindsym d exec --no-startup-id discord, mode "default"
-    bindsym c exec --no-startup-id google-chrome, mode "default"
-    bindsym i exec --no-startup-id google-chrome --incognito, mode "default"
+    bindsym c exec --no-startup-id x-www-browser, mode "default"
+    bindsym i exec --no-startup-id x-www-browser --incognito, mode "default"
     bindsym m exec --no-startup-id thunderbird, mode "default"
     bindsym t exec --no-startup-id teams, mode "default"
     bindsym z exec --no-startup-id zoom, mode "default"
@@ -231,5 +231,46 @@ mode "$mode_start" {
 }
 bindsym $mod+Tab mode "$mode_start"
 
-exec --no-startup-id $HOME/.config/i3/scripts/background.sh
+bindsym Shift+$mod+bracketright move workspace to output right
+bindsym Shift+$mod+bracketleft move workspace to output left
 
+# exec --no-startup-id $HOME/.config/i3/scripts/background.sh
+exec --no-startup-id nitrogen --restore
+
+default_orientation vertical
+# for_window [class=".*"] split toggle #toggles split at each new window
+
+# From i3-gaps
+# smart_gaps on
+# smart_borders on
+gaps inner 10
+gaps outer 0
+hide_edge_borders smart_no_gaps
+
+for_window [class=".*"] border pixel 0
+hide_edge_borders both
+
+exec --no-startup-id picom -b
+exec --no-startup-id davmail
+
+set $mode_2fa 2FA (k) Kent; (g) Github
+mode "$mode_2fa" {
+    bindsym k exec --no-startup-id ~/.local/bin/kent-login
+    bindsym g exec --no-startup-id ~/.local/bin/github-login
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+Control+l mode "$mode_2fa"
+
+set $mode_screen (e) enable; (d) disable
+mode "$mode_screen" {
+    bindsym e exec --no-startup-id ~/.screenlayout/layout.sh, mode "default"
+    bindsym d exec --no-startup-id ~/.screenlayout/reset.sh, mode "default"
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+Control+w mode "$mode_screen"
