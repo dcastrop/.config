@@ -23,6 +23,6 @@ if (( $#kent )) then
   code=`oathtool --base32 --totp <AUTH> -d 6`
 fi
 
-echo $code | xclip
-zenity --notification --text="Code '$code' copied to clipboard"
+# echo $code | xclip
+# zenity --notification --text="Code '$code' copied to clipboard"
 xdotool type "$code"
