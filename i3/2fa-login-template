@@ -1,12 +1,28 @@
 #!/bin/zsh 
 
-# ~/.local/bin/<whatever>-login
+zmodload zsh/zutil
 
-## Uncomment & tweak
-# CODE=`oathtool -b --totp=SHA1 <CODE>` #Github 
-# CODE=`oathtool --base32 --totp <CODE> -d 6`  #Kent
-# ETC
+local usage=( 
+  "$0 [-g | --github]" 
+  "$0 [-k | --kent]" 
+)
 
-echo $CODE | xclip
+zparseopts -D -F -K - g=github -github=github k=kent -k=kent || exit 1
 
-zenity --notification --text="Code '$CODE' copied to clipboard"
+if (( ($#github && $#kent) || (!$#github && !$#kent) )) then
+  printf "Usage: \n"
+  printf "\t%s\n" $usage
+  exit 1
+fi
+
+local code
+if (( $#github )) then
+  code=`oathtool -b --totp=SHA1 <AUTH>`
+fi
+if (( $#kent )) then
+  code=`oathtool --base32 --totp <AUTH> -d 6`
+fi
+
+echo $code | xclip
+zenity --notification --text="Code '$code' copied to clipboard"
+xdotool type "$code"
