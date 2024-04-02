@@ -191,8 +191,8 @@ exec --no-startup-id pasystray
 # exec --no-startup-id xsetroot -solid "#000000"
 
 # Pulse Audio controls
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && pkill -RTMIN+1 i3blocks #increase sound volume
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && pkill -RTMIN+1 i3blocks #decrease sound volume
+bindsym XF86AudioRaiseVolume exec --no-startup-id $HOME/.config/i3/scripts/increase_volume.sh && pkill -RTMIN+1 i3blocks #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -1% && pkill -RTMIN+1 i3blocks #decrease sound volume
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && pkill -RTMIN+1 i3blocks # mute sound
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
 
