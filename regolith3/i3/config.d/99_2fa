@@ -1,0 +1,10 @@
+set $mode_2fa 2FA (k) Kent; (g) Github
+mode "$mode_2fa" {
+    bindsym --release k exec --no-startup-id ~/.config/regolith3/scripts/mfa_login.sh -k, mode "default"
+    bindsym --release g exec --no-startup-id ~/.config/regolith3/scripts/mfa_login.sh -g, mode "default"
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+F2 mode "$mode_2fa"
