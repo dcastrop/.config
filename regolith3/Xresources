@@ -1,6 +1,8 @@
-!regolith.look.path: /usr/share/regolith-look/i3-default
 wm.gaps.inner.size: 8
 wm.window.border.size: 0
 wm.bar.position: top
 regolith.wallpaper.file: ~/.config/regolith3/background/background.jpg
+regolith.wallpaper.options: stretched
 regolith.lockscreen.wallpaper.file: ~/.config/regolith3/background/background.jpg
+!regolith.look.path: /usr/share/regolith-look/i3-default
+regolith.look.path: /usr/share/regolith-look/default
