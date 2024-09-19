@@ -6,5 +6,5 @@ i3xrocks.value.font: BitstreamVeraSansMono Nerd Font 10
 regolith.wallpaper.file: ~/.config/regolith3/background/background.jpg
 regolith.wallpaper.options: stretched
 regolith.lockscreen.wallpaper.file: ~/.config/regolith3/background/background.jpg
-!regolith.look.path: /usr/share/regolith-look/i3-default
+!regolith.look.path: /usr/share/regolith-look/default
 regolith.look.path: /usr/share/regolith-look/default
