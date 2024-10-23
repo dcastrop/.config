@@ -115,7 +115,7 @@
        ;;tty               ; improve the terminal Emacs experience
 
        :lang
-       (agda +local)             ; types of types of types of types...
+       (agda +local)      ; types of types of types of types...
        ;;beancount         ; mind the GAAP
        ;;(cc +lsp)         ; C > C++ == 1
        ;;clojure           ; java with a lisp
