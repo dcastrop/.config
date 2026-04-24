@@ -205,4 +205,6 @@ bindsym $mod+Shift+p exec ~/.config/sway/scripts/power-menu
 bindsym $mod+Shift+s exec ~/.config/sway/scripts/screenshot-menu
 bindsym $mod+Shift+n exec ~/.config/sway/scripts/notification-menu
 
+output * bg ~/.config/sway/background/background.jpg fill
+
 include /etc/sway/config.d/*
