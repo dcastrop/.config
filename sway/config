@@ -13,8 +13,10 @@ include /etc/sway/config-vars.d/*
 
 ### Startup
 exec_always dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
-exec_always sh -c 'pkill -x waybar; /usr/bin/waybar &'
-exec_always sh -c 'pkill -x swayosd-server; /usr/bin/swayosd-server &'
+# exec_always sh -c 'pkill -x waybar; /usr/bin/waybar &'
+# exec_always sh -c 'pkill -x swayosd-server; /usr/bin/swayosd-server &'
+exec /usr/bin/waybar
+exec /usr/bin/swayosd-server
 exec mako
 exec ~/.config/sway/scripts/wob-start
 exec swayidle -w \
