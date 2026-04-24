@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+dev="$(pactl get-default-source)"
+muted="$(pactl get-source-mute "$dev" | awk '{print $2}')"
+vol="$(pactl get-source-volume "$dev" | awk -F'/' 'NR==1 {gsub(/ |%/,"",$2); print $2}')"
+
+if [ "$muted" = "yes" ]; then
+  jq -cn --arg text "" --arg tooltip "Microphone muted" \
+    '{text:$text, tooltip:$tooltip, class:"muted"}'
+else
+  jq -cn --arg text " '"$vol"'%" --arg tooltip "Microphone active" \
+    '{text:$text, tooltip:$tooltip, class:"active"}'
+fi

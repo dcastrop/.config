@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+choice=$(printf "%s\n" \
+  "UK" \
+  "US" \
+  | rofi -dmenu -i -p Keyboard)
+
+case "$choice" in
+  "UK")
+    swaymsg input type:keyboard xkb_layout gb
+    ;;
+  "US")
+    swaymsg input type:keyboard xkb_layout us
+    ;;
+esac
+
+notify-send "Keyboard layout" "$choice"

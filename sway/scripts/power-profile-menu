@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+current=$(powerprofilesctl get 2>/dev/null)
+choice=$(printf "%s\n" \
+  "performance" \
+  "balanced" \
+  "power-saver" \
+  | rofi -dmenu -i -p "Power profile: ${current}")
+
+[ -n "$choice" ] && powerprofilesctl set "$choice"

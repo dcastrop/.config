@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+dev="$(pactl get-default-source)"
+
+pactl set-source-mute "$dev" toggle
+
+muted="$(pactl get-source-mute "$dev" | awk '{print $2}')"
+
+if [ "$muted" = "yes" ]; then
+  notify-send -t 2000 "  Microphone" "Muted"
+else
+  notify-send -t 2000 "  Microphone" "Unmuted"
+fi
+
+pkill -RTMIN+8 waybar 2>/dev/null || true

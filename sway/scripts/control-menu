@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+
+menu="rofi -dmenu -i -p Settings"
+
+choice=$(printf "%s\n" \
+  "Network" \
+  "Audio" \
+  "Bluetooth" \
+  "Display" \
+  "Brightness" \
+  "Power profile" \
+  "Battery info" \
+  "System monitor" \
+  "Screenshots" \
+  "Notifications" \
+  "Keyboard layout" \
+  "Reload Sway" \
+  "Lock" \
+  "Logout / Power" \
+  | $menu)
+
+case "$choice" in
+  "Network")
+    nm-connection-editor
+    ;;
+
+  "Audio")
+    pavucontrol
+    ;;
+
+  "Bluetooth")
+    blueman-manager
+    ;;
+
+  "Display")
+    ~/.config/sway/scripts/display-menu
+    ;;
+
+  "Brightness")
+    ~/.config/sway/scripts/brightness-menu
+    ;;
+
+  "Power profile")
+    ~/.config/sway/scripts/power-profile-menu
+    ;;
+
+  "Battery info")
+    foot -e sh -c 'upower -d; echo; read -p "Press Enter to close..."'
+    ;;
+
+  "System monitor")
+    gnome-system-monitor
+    ;;
+
+  "Screenshots")
+    ~/.config/sway/scripts/screenshot-menu
+    ;;
+
+  "Notifications")
+    ~/.config/sway/scripts/notification-menu
+    ;;
+
+  "Keyboard layout")
+    ~/.config/sway/scripts/keyboard-menu
+    ;;
+
+  "Reload Sway")
+    swaymsg reload
+    notify-send "Sway" "Configuration reloaded"
+    ;;
+
+  "Lock")
+    swaylock -f -c 1d1f21
+    ;;
+
+  "Logout / Power")
+    ~/.config/sway/scripts/power-menu
+    ;;
+esac

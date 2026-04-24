@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+choice=$(printf "%s\n" \
+  "List displays" \
+  "Enable all" \
+  "Disable external displays" \
+  "Laptop only" \
+  "External only" \
+  "Mirror simple" \
+  | rofi -dmenu -i -p Display)
+
+case "$choice" in
+  "List displays")
+    foot -e sh -c 'swaymsg -t get_outputs; echo; read -p "Press Enter to close..."'
+    ;;
+
+  "Enable all")
+    swaymsg output '*' enable
+    ;;
+
+  "Disable external displays")
+    internal=$(swaymsg -t get_outputs | jq -r '.[] | select(.name | test("eDP|LVDS")) | .name' | head -n1)
+    swaymsg -t get_outputs | jq -r '.[].name' | while read -r out; do
+      [ "$out" != "$internal" ] && swaymsg output "$out" disable
+    done
+    ;;
+
+  "Laptop only")
+    internal=$(swaymsg -t get_outputs | jq -r '.[] | select(.name | test("eDP|LVDS")) | .name' | head -n1)
+    swaymsg output "$internal" enable
+    swaymsg -t get_outputs | jq -r '.[].name' | while read -r out; do
+      [ "$out" != "$internal" ] && swaymsg output "$out" disable
+    done
+    ;;
+
+  "External only")
+    internal=$(swaymsg -t get_outputs | jq -r '.[] | select(.name | test("eDP|LVDS")) | .name' | head -n1)
+    swaymsg -t get_outputs | jq -r '.[].name' | while read -r out; do
+      [ "$out" != "$internal" ] && swaymsg output "$out" enable
+    done
+    swaymsg output "$internal" disable
+    ;;
+
+  "Mirror simple")
+    internal=$(swaymsg -t get_outputs | jq -r '.[] | select(.name | test("eDP|LVDS")) | .name' | head -n1)
+    swaymsg -t get_outputs | jq -r '.[].name' | while read -r out; do
+      swaymsg output "$out" enable position 0 0
+    done
+    ;;
+esac

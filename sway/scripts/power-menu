@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+choice=$(printf "%s\n" \
+  "Lock" \
+  "Suspend" \
+  "Hibernate" \
+  "Reboot" \
+  "Power off" \
+  "Logout Sway" \
+  | rofi -dmenu -i -p Power)
+
+case "$choice" in
+  "Lock")
+    swaylock -f -c 1d1f21
+    ;;
+  "Suspend")
+    systemctl suspend
+    ;;
+  "Hibernate")
+    systemctl hibernate
+    ;;
+  "Reboot")
+    systemctl reboot
+    ;;
+  "Power off")
+    systemctl poweroff
+    ;;
+  "Logout Sway")
+    swaymsg exit
+    ;;
+esac

@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+
+CACHE_FILE="/tmp/waybar-weather.json"
+CACHE_TTL=600  # seconds
+
+get_location() {
+  if [ -n "$WEATHER_LOCATION" ] && [ "$WEATHER_LOCATION" != "auto" ]; then
+    echo "$WEATHER_LOCATION"
+    return
+  fi
+
+  curl -fsS https://ipinfo.io/loc 2>/dev/null || echo "London"
+}
+
+fetch_weather() {
+  location="$(get_location)"
+  curl -fsS "https://wttr.in/${location}?format=j1" 2>/dev/null
+}
+
+is_cache_valid() {
+  [ -f "$CACHE_FILE" ] && \
+  [ $(( $(date +%s) - $(stat -c %Y "$CACHE_FILE") )) -lt $CACHE_TTL ]
+}
+
+if is_cache_valid; then
+  data="$(cat "$CACHE_FILE")"
+else
+  data="$(fetch_weather)"
+  echo "$data" > "$CACHE_FILE"
+fi
+
+# Validate JSON
+if ! echo "$data" | jq empty >/dev/null 2>&1; then
+  echo '{"text":"WEA n/a","tooltip":"Weather unavailable"}'
+  exit 0
+fi
+
+nearest="$(echo "$data" | jq -r '.nearest_area[0].areaName[0].value // "Unknown"')"
+temp="$(echo "$data" | jq -r '.current_condition[0].temp_C // "?"')"
+desc="$(echo "$data" | jq -r '.current_condition[0].weatherDesc[0].value // "Unknown"')"
+feels="$(echo "$data" | jq -r '.current_condition[0].FeelsLikeC // "?"')"
+wind="$(echo "$data" | jq -r '.current_condition[0].windspeedKmph // "?"')"
+humidity="$(echo "$data" | jq -r '.current_condition[0].humidity // "?"')"
+
+text="WEA ${temp}°C"
+tooltip="${nearest}: ${desc}\nFeels like: ${feels}°C\nWind: ${wind} km/h\nHumidity: ${humidity}%"
+
+if [ "$1" = "--notify" ]; then
+  notify-send "Weather" "$tooltip"
+fi
+
+jq -cn \
+  --arg text "$text" \
+  --arg tooltip "$tooltip" \
+  '{text:$text, tooltip:$tooltip}'

@@ -1,0 +1,114 @@
+{
+  "layer": "top",
+  "position": "top",
+  "height": 26,
+  "modules-left": [
+    "custom/settings",
+    "sway/workspaces",
+    "sway/mode"
+  ],
+  "modules-center": ["sway/window"],
+  "modules-right": [
+    "sway/language",
+    "custom/weather",
+    "temperature",
+    "cpu",
+    "memory",
+    "network",
+    "custom/mic",
+    "pulseaudio",
+    "battery",
+    "clock"
+  ],
+
+  "custom/settings": {
+    "format": "☰",
+    "tooltip": "Settings",
+    "on-click": "~/.config/sway/scripts/control-menu",
+    "on-click-right": "~/.config/sway/scripts/power-menu"
+  },
+
+  "sway/workspaces": {
+    "format": "{value}",
+    "all-outputs": false,
+    "on-click": "activate"
+  },
+
+  "sway/window": {
+    "format": "{}",
+    "max-length": 90
+  },
+
+  
+  "sway/language": {
+    "format": "⌨️ {}",
+    "tooltip": false
+  },
+  
+  "custom/weather": {
+    "exec": "~/.config/waybar/scripts/weather",
+    "return-type": "json",
+    "interval": 600
+  },
+  
+  "temperature": {
+    "format": "🌡️ {temperatureC}°C",
+    "critical-threshold": 85
+  },
+  
+  "cpu": {
+    "format": "⚙️ {usage}%",
+    "interval": 2,
+    "on-click": "gnome-system-monitor"
+  },
+  
+  "memory": {
+    "format": "🗃️ {used:0.1f}G",
+    "interval": 5,
+    "on-click": "gnome-system-monitor"
+  },
+  
+  "network": {
+    "format-wifi": "📶 {essid}",
+    "format-ethernet": "🌐 {ipaddr}",
+    "format-disconnected": "⚠️ offline",
+    "tooltip-format": "{ifname}\n{ipaddr}/{cidr}\nSignal: {signalStrength}%",
+    "on-click": "nm-connection-editor"
+  },
+  
+  "custom/mic": {
+    "exec": "~/.config/waybar/scripts/mic-status",
+    "return-type": "json",
+    "interval": 2,
+    "signal": 8,
+    "format": "{}",
+    "on-click": "~/.config/sway/scripts/mic-toggle",
+    "tooltip": true
+  },
+  
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-muted": "🔇",
+    "format-icons": ["🔈", "🔉", "🔊"],
+    "scroll-step": 5,
+    "on-click": "pavucontrol",
+    "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+  },
+  
+  "battery": {
+    "format": "🔋 {capacity}%",
+    "format-charging": "⚡ {capacity}%",
+    "format-plugged": "🔌 {capacity}% (full)",
+    "format-full": "🔌 100%",
+    "states": {
+      "warning": 30,
+      "critical": 15
+    }
+  },
+  
+  "clock": {
+    "format": "🕒 {:%a %d/%m %H:%M}",
+    "tooltip-format": "<big>{:%B %Y}</big>\n<tt><small>{calendar}</small></tt>",
+    "on-click": "gnome-calendar"
+  }
+}

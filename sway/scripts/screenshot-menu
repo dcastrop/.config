@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+dir="$HOME/Pictures/Screenshots"
+mkdir -p "$dir"
+
+choice=$(printf "%s\n" \
+  "Full screen" \
+  "Select area" \
+  "Focused window" \
+  | rofi -dmenu -i -p Screenshot)
+
+file="$dir/$(date +'%Y-%m-%d_%H-%M-%S').png"
+
+case "$choice" in
+  "Full screen")
+    grim "$file"
+    ;;
+  "Select area")
+    grim -g "$(slurp)" "$file"
+    ;;
+  "Focused window")
+    grim -g "$(swaymsg -t get_tree | jq -r '.. | select(.focused? == true) | .rect | "\(.x),\(.y) \(.width)x\(.height)"')" "$file"
+    ;;
+  *)
+    exit 0
+    ;;
+esac
+
+wl-copy < "$file"
+notify-send "Screenshot saved" "$file"

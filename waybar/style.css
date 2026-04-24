@@ -1,0 +1,95 @@
+* {
+  border: none;
+  border-radius: 0;
+  font-family: "JetBrains Mono", "Font Awesome 6 Free", monospace;
+  font-size: 12px;
+  min-height: 0;
+}
+
+window#waybar {
+  background: #1d1f21;
+  color: #c5c8c6;
+  border-bottom: 1px solid #373b41;
+}
+
+#workspaces button {
+  padding: 0 6px;
+  margin: 0 2px;
+  border: none;
+  background: transparent;
+  color: #c5c8c6;
+}
+
+/* Active workspace */
+#workspaces button.focused {
+  color: #ffffff;
+  border-bottom: 2px solid #b5bd68;
+}
+
+/* Workspace with windows */
+#workspaces button:not(.empty) {
+  background: rgba(181, 189, 104, 0.15);
+}
+
+/* Empty workspace */
+#workspaces button.empty {
+  opacity: 0.4;
+}
+
+/* Urgent */
+#workspaces button.urgent {
+  color: #cc6666;
+}
+
+#mode,
+#window,
+#language,
+#clock,
+#battery,
+#cpu,
+#temperature,
+#memory,
+#network,
+#pulseaudio,
+#custom-weather {
+  padding: 0 9px;
+  color: #c5c8c6;
+  background: #1d1f21;
+  border-left: 1px solid #373b41;
+}
+
+#battery.warning {
+  color: #f0c674;
+}
+
+#battery.critical,
+#temperature.critical,
+#network.disconnected {
+  color: #cc6666;
+}
+
+#custom-mic {
+  padding: 0 9px;
+  color: #c5c8c6;
+  background: #1d1f21;
+  border-left: 1px solid #373b41;
+}
+
+#custom-mic.muted {
+  color: #cc6666;
+}
+
+#custom-mic.active {
+  color: #b5bd68;
+}
+
+#pulseaudio.muted {
+  color: #969896;
+}
+
+#custom-settings {
+  padding: 0 10px;
+  color: #ffffff;
+  background: #5f676a;
+  border-right: 1px solid #373b41;
+}

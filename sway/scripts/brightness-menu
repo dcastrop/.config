@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+current=$(brightnessctl -m | awk -F, '{print $4}')
+choice=$(printf "%s\n" \
+  "Increase +10%" \
+  "Decrease -10%" \
+  "Set 100%" \
+  "Set 75%" \
+  "Set 50%" \
+  "Set 25%" \
+  | rofi -dmenu -i -p "Brightness ${current}")
+
+case "$choice" in
+  "Increase +10%") brightnessctl set +10% ;;
+  "Decrease -10%") brightnessctl set 10%- ;;
+  "Set 100%") brightnessctl set 100% ;;
+  "Set 75%") brightnessctl set 75% ;;
+  "Set 50%") brightnessctl set 50% ;;
+  "Set 25%") brightnessctl set 25% ;;
+esac

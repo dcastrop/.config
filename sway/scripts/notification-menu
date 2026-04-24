@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+choice=$(printf "%s\n" \
+  "Dismiss all" \
+  "Reload mako" \
+  "Test notification" \
+  | rofi -dmenu -i -p Notifications)
+
+case "$choice" in
+  "Dismiss all")
+    makoctl dismiss --all
+    ;;
+  "Reload mako")
+    makoctl reload
+    notify-send "Mako" "Notifications reloaded"
+    ;;
+  "Test notification")
+    notify-send "Test notification" "Mako is working"
+    ;;
+esac

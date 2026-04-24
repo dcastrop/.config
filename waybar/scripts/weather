@@ -1,0 +1,111 @@
+#!/usr/bin/env bash
+
+CACHE_FILE="/tmp/waybar-weather.json"
+CACHE_TTL=600
+FALLBACK_LOCATION="London"
+
+get_location() {
+  if [ -n "$WEATHER_LOCATION" ] && [ "$WEATHER_LOCATION" != "auto" ]; then
+    echo "$WEATHER_LOCATION"
+    return
+  fi
+
+  loc="$(curl -fsS https://ipinfo.io/loc 2>/dev/null)"
+  [ -n "$loc" ] && echo "$loc" || echo "$FALLBACK_LOCATION"
+}
+
+get_location_name() {
+  if [ -n "$WEATHER_LOCATION" ] && [ "$WEATHER_LOCATION" != "auto" ]; then
+    echo "$WEATHER_LOCATION"
+    return
+  fi
+
+  city="$(curl -fsS https://ipinfo.io/city 2>/dev/null | tr -d '\n')"
+  region="$(curl -fsS https://ipinfo.io/region 2>/dev/null | tr -d '\n')"
+  country="$(curl -fsS https://ipinfo.io/country 2>/dev/null | tr -d '\n')"
+
+  if [ -n "$city" ] && [ -n "$region" ]; then
+    echo "${city}, ${region}"
+  elif [ -n "$city" ]; then
+    echo "$city"
+  elif [ -n "$country" ]; then
+    echo "$country"
+  else
+    echo "Current location"
+  fi
+}
+
+fetch_weather() {
+  location="$(get_location)"
+  curl -fsS "https://wttr.in/${location}?format=j1" 2>/dev/null
+}
+
+cache_valid() {
+  [ -f "$CACHE_FILE" ] && \
+  [ $(( "$(date +%s)" - "$(stat -c %Y "$CACHE_FILE")" )) -lt "$CACHE_TTL" ]
+}
+
+if cache_valid; then
+  data="$(cat "$CACHE_FILE")"
+else
+  data="$(fetch_weather)"
+  if echo "$data" | jq empty >/dev/null 2>&1; then
+    echo "$data" > "$CACHE_FILE"
+  fi
+fi
+
+if ! echo "$data" | jq empty >/dev/null 2>&1; then
+  echo '{"text":"WEA n/a","tooltip":"Weather unavailable"}'
+  exit 0
+fi
+
+place="$(get_location_name)"
+temp="$(echo "$data" | jq -r '.current_condition[0].temp_C // "?"')"
+desc="$(echo "$data" | jq -r '.current_condition[0].weatherDesc[0].value // "Unknown"')"
+feels="$(echo "$data" | jq -r '.current_condition[0].FeelsLikeC // "?"')"
+wind="$(echo "$data" | jq -r '.current_condition[0].windspeedKmph // "?"')"
+humidity="$(echo "$data" | jq -r '.current_condition[0].humidity // "?"')"
+condition="$(echo "$data" | jq -r '.current_condition[0].weatherDesc[0].value // ""' | tr '[:upper:]' '[:lower:]')"
+
+case "$condition" in
+  *clear*|*sunny*)
+    icon="☀️"
+    ;;
+  *partly*)
+    icon="🌤️"
+    ;;
+  *overcast*)
+    icon="🌥️"
+    ;;
+  *cloud*)
+    icon="☁️"
+    ;;
+  *mist*|*fog*|*haze*)
+    icon="🌫️"
+    ;;
+  *drizzle*|*rain*|*shower*)
+    icon="🌧️"
+    ;;
+  *thunder*|*storm*)
+    icon="⛈️"
+    ;;
+  *snow*|*sleet*|*ice*)
+    icon="❄️"
+    ;;
+  *)
+    icon="🌥️"
+    ;;
+esac
+
+text="${icon} ${temp}°C"
+
+tooltip="${place}: ${desc}\nFeels like: ${feels}°C\nWind: ${wind} km/h\nHumidity: ${humidity}%"
+
+if [ "$1" = "--notify" ]; then
+  notify-send "Weather" "$tooltip"
+fi
+
+jq -cn \
+  --arg text "$text" \
+  --arg tooltip "$tooltip" \
+  '{text:$text, tooltip:$tooltip}'
