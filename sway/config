@@ -183,13 +183,13 @@ bindsym XF86AudioPrev exec playerctl previous
 for_window [app_id="pavucontrol"] floating enable
 for_window [title="Picture-in-Picture"] floating enable, sticky enable
 
-set $mode_2fa "2FA: (k) Kent | (g) Github | (r) RHUL | (v) VPN"
+set $mode_2fa 2FA (k) Kent | (g) Github | (r) RHUL | (v) VPN
 
 mode "$mode_2fa" {
-    bindsym --release k exec ~/.config/sway/scripts/mfa_login.sh -k, mode "default"
-    bindsym --release g exec ~/.config/sway/scripts/mfa_login.sh -g, mode "default"
-    bindsym --release r exec ~/.config/sway/scripts/mfa_login.sh -r, mode "default"
-    bindsym --release v exec ~/.config/sway/scripts/mfa_login.sh -v, mode "default"
+    bindsym k exec sh -c '~/.config/sway/scripts/mfa_login.sh -k'; mode "default"
+    bindsym g exec sh -c '~/.config/sway/scripts/mfa_login.sh -g'; mode "default"
+    bindsym r exec sh -c '~/.config/sway/scripts/mfa_login.sh -r'; mode "default"
+    bindsym v exec sh -c '~/.config/sway/scripts/mfa_login.sh -v'; mode "default"
 
     bindsym Return mode "default"
     bindsym Escape mode "default"

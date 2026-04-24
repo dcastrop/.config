@@ -11,7 +11,7 @@ local usage=(
 
 zparseopts -D -F -K - g=github -github=github k=kent -k=kent r=rhul -r=rhul v=vpn -v=vpn || exit 1
 
-if (( !($#github ^^ $#kent ^^ $#rhul ^^ $#vpn) ))
+if (( !($#github ^^ $#kent ^^ $#rhul ^^ $#vpn) )) 
 then
   printf "Usage: \n"
   printf "\t%s\n" $usage
@@ -26,12 +26,12 @@ if (( $#kent )) then
   code=`oathtool --base32 --totp <SECRET> -d 6`
 fi
 if (( $#rhul )) then
-  code=`oathtool --totp -b "<SECRET>" -d 6`
+  code=`oathtool --totp -b <SECRET> -d 6`
 fi
 if (( $#vpn )) then
-  code=`oathtool --totp -b "<SECRET>"`
+  code=`oathtool --totp -b <SECRET>`
 fi
 
 # echo $code | xclip
 # zenity --notification --text="Code '$code' copied to clipboard"
-xdotool type "$code"
+wtype "$code"
