@@ -11,7 +11,7 @@
   "modules-right": [
     "sway/language",
     "custom/weather",
-    "temperature",
+    "custom/cpu-temp",
     "cpu",
     "memory",
     "network",
@@ -50,10 +50,11 @@
     "return-type": "json",
     "interval": 600
   },
-  
-  "temperature": {
-    "format": "🌡️ {temperatureC}°C",
-    "critical-threshold": 85
+
+  "custom/cpu-temp": {
+    "exec": "~/.config/waybar/scripts/cpu-temp",
+    "interval": 5,
+    "return-type": "json"
   },
   
   "cpu": {

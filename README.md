@@ -1,4 +1,4 @@
-# My personal Sway Setup
+# My personal setup (.config)
 
 ## Install
 

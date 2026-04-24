@@ -30,6 +30,8 @@ PACKAGES=(
   power-profiles-daemon
   upower
   fonts-noto-color-emoji
+  lm-sensors
+  fonts-jetbrains-mono
 )
 
 echo "Installing packages..."
