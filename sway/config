@@ -18,7 +18,6 @@ exec_always dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CUR
 exec /usr/bin/waybar
 exec /usr/bin/swayosd-server
 exec mako
-exec ~/.config/sway/scripts/wob-start
 exec swayidle -w \
     timeout 600 '$lock' \
     timeout 900 'swaymsg "output * power off"' \
