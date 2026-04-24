@@ -13,6 +13,8 @@ include /etc/sway/config-vars.d/*
 
 ### Startup
 exec_always dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+exec_always dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP=sway
+exec /usr/bin/gnome-keyring-daemon --start --components=secrets,ssh
 # exec_always sh -c 'pkill -x waybar; /usr/bin/waybar &'
 # exec_always sh -c 'pkill -x swayosd-server; /usr/bin/swayosd-server &'
 exec /usr/bin/waybar
@@ -55,9 +57,10 @@ bindsym $mod+d exec $menu
 floating_modifier $mod normal
 bindsym $mod+Shift+c reload
 bindsym $mod+Shift+e exec swaynag -t warning -m 'Exit Sway?' -B 'Yes, exit Sway' 'swaymsg exit'
+bindsym $mod+space exec wofi --show drun --allow-images
 
 ### Useful launchers
-bindsym $mod+Shift+Return exec $term
+bindsym $mod+Shift+Return exec brave-browser
 bindsym $mod+Control+l exec $lock
 bindsym $mod+p exec pavucontrol
 
@@ -127,7 +130,7 @@ bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 bindsym $mod+f fullscreen toggle
 bindsym $mod+Shift+space floating toggle
-bindsym $mod+space focus mode_toggle
+bindsym $mod+Tab focus mode_toggle
 bindsym $mod+a focus parent
 
 ### Scratchpad
@@ -208,3 +211,9 @@ bindsym $mod+Shift+n exec ~/.config/sway/scripts/notification-menu
 output * bg ~/.config/sway/background/background.jpg fill
 
 include /etc/sway/config.d/*
+
+gaps inner 2
+gaps outer 0
+smart_gaps on
+smart_borders on
+
