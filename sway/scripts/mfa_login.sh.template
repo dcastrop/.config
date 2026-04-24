@@ -1,0 +1,37 @@
+#!/bin/zsh 
+
+zmodload zsh/zutil
+
+local usage=( 
+  "$0 [-g | --github]" 
+  "$0 [-k | --kent]" 
+  "$0 [-r | --rhul]" 
+  "$0 [-v | --vpn]" 
+)
+
+zparseopts -D -F -K - g=github -github=github k=kent -k=kent r=rhul -r=rhul v=vpn -v=vpn || exit 1
+
+if (( !($#github ^^ $#kent ^^ $#rhul ^^ $#vpn) ))
+then
+  printf "Usage: \n"
+  printf "\t%s\n" $usage
+  exit 1
+fi
+
+local code
+if (( $#github )) then
+  code=`oathtool -b --totp=SHA1 <SECRET>`
+fi
+if (( $#kent )) then
+  code=`oathtool --base32 --totp <SECRET> -d 6`
+fi
+if (( $#rhul )) then
+  code=`oathtool --totp -b "<SECRET>" -d 6`
+fi
+if (( $#vpn )) then
+  code=`oathtool --totp -b "<SECRET>"`
+fi
+
+# echo $code | xclip
+# zenity --notification --text="Code '$code' copied to clipboard"
+xdotool type "$code"
