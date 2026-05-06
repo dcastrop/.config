@@ -12,7 +12,8 @@ set $lock swaylock -f -c 1d1f21
 include /etc/sway/config-vars.d/*
 
 ### Startup
-exec /usr/bin/waybar
+# exec /usr/bin/waybar
+exec_always sh -c 'pkill -x waybar || true; waybar >/tmp/waybar.log 2>&1 &'
 # exec_always dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 exec_always dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP=sway
 exec /usr/bin/gnome-keyring-daemon --start --components=secrets,ssh
@@ -20,6 +21,8 @@ exec /usr/bin/gnome-keyring-daemon --start --components=secrets,ssh
 # exec_always sh -c 'pkill -x swayosd-server; /usr/bin/swayosd-server &'
 exec /usr/bin/swayosd-server
 exec mako
+exec nm-applet --indicator
+exec blueman-applet
 exec swayidle -w \
     timeout 600 '$lock' \
     timeout 900 'swaymsg "output * power off"' \
@@ -171,6 +174,9 @@ bindcode --locked 233 exec swayosd-client --brightness raise
 bindcode 180 exec xdg-open "https://www.google.com"
 bindcode 163 exec evolution
 
+## FIXME: virtual cam (until somebody fixes camera ...)
+bindsym $mod+Shift+v exec ~/.config/sway/scripts/virtual-camera start
+bindsym $mod+Shift+x exec ~/.config/sway/scripts/virtual-camera stop
 
 ### Screenshots
 bindsym Print exec ~/.config/sway/scripts/screenshot full

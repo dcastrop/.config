@@ -9,12 +9,14 @@
   ],
   "modules-center": ["sway/window"],
   "modules-right": [
+    "tray",
     "sway/language",
     "custom/weather",
     "custom/cpu-temp",
     "cpu",
-    "memory",
-    "network",
+    // "memory",
+    // "custom/bluetooth",
+    // "network",
     "custom/mic",
     "pulseaudio",
     "battery",
@@ -67,6 +69,16 @@
     "format": "🗃️ {used:0.1f}G",
     "interval": 5,
     "on-click": "gnome-system-monitor"
+  },
+
+  "custom/bluetooth": {
+    "exec": "~/.config/waybar/scripts/bluetooth",
+    "return-type": "json",
+    "interval": 5,
+    "format": "{}",
+    "on-click": "blueman-manager",
+    "on-click-right": "bluetoothctl power toggle",
+    "tooltip": true
   },
   
   "network": {

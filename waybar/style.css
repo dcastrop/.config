@@ -93,3 +93,32 @@ window#waybar {
   background: #5f676a;
   border-right: 1px solid #373b41;
 }
+
+#custom-bluetooth {
+  padding: 0 10px;
+  margin: 0 4px;
+  border-radius: 8px;
+}
+
+#custom-bluetooth.connected {
+  color: #8aadf4;
+}
+
+#custom-bluetooth.disconnected {
+  color: #6e738d;
+}
+
+#tray {
+    padding-left: 6px;
+    margin-left: 6px;
+    border-left: 1px solid #555;
+}
+
+#tray image {
+    padding: 0 3px;
+    box-shadow: inset 1px 0 #555;
+}
+
+#tray image:first-child {
+    box-shadow: none;
+}
