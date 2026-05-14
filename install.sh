@@ -55,10 +55,10 @@ done
 
 echo "Installing config..."
 mkdir -p "$HOME/.config"
-cp -a "$REPO_DIR/config/sway" "$HOME/.config/"
-cp -a "$REPO_DIR/config/waybar" "$HOME/.config/"
-cp -a "$REPO_DIR/config/foot" "$HOME/.config/"
-cp -a "$REPO_DIR/config/doom" "$HOME/.config/"
+cp -a "$REPO_DIR/sway" "$HOME/.config/"
+cp -a "$REPO_DIR/waybar" "$HOME/.config/"
+cp -a "$REPO_DIR/foot" "$HOME/.config/"
+cp -a "$REPO_DIR/doom" "$HOME/.config/"
 
 echo "Making scripts executable..."
 find "$HOME/.config/sway/scripts" "$HOME/.config/waybar/scripts" -type f -exec chmod +x {} \; 2>/dev/null || true
