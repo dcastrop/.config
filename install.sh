@@ -11,7 +11,8 @@ PACKAGES=(
   wmenu
   rofi
   brightnessctl
-  swayosd
+  # TODO uncomment when shifting to 26.04
+  # swayosd
   playerctl
   grim
   slurp
@@ -32,6 +33,7 @@ PACKAGES=(
   fonts-noto-color-emoji
   lm-sensors
   fonts-jetbrains-mono
+  wofi
 )
 
 echo "Installing packages..."
