@@ -206,6 +206,14 @@ mode "$mode_2fa" {
 
 bindsym $mod+F2 mode "$mode_2fa"
 
+### Passthrough mode for moonlight
+set $mode_moonlight Moonlight (F12 to start; Ctrl+F12 to close)
+mode "$mode_moonlight" {
+    bindsym F12 exec /home/dcastrop/.local/bin/moonlight
+    bindsym Ctrl+F12 exec pkill -f moonlight, mode "default"
+}
+bindsym $mod+Shift+m mode "$mode_moonlight"
+
 ### Disable native swaybar; Waybar is used instead
 # bar {}
 
