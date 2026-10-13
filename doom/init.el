@@ -14,6 +14,10 @@
 ;;      Alternatively, press 'gd' (or 'C-c c d') on a module to browse its
 ;;      directory (for easy access to its source code).
 
+(let ((bin (expand-file-name "~/.local/bin")))
+  (add-to-list 'exec-path bin)
+  (setenv "PATH" (concat bin ":" (getenv "PATH"))))
+
 (doom! :input
        ;;bidi              ; (tfel ot) thgir etirw uoy gnipleh
        ;;chinese
