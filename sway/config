@@ -16,7 +16,9 @@ include /etc/sway/config-vars.d/*
 exec_always sh -c 'pkill -x waybar || true; waybar >/tmp/waybar.log 2>&1 &'
 # exec_always dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 exec_always dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP=sway
-exec /usr/bin/gnome-keyring-daemon --start --components=secrets,ssh
+# gnome-keyring (secrets) is unlocked by PAM (lightdm) and socket-activated by systemd;
+# SSH is served by gcr-ssh-agent.socket at $XDG_RUNTIME_DIR/gcr/ssh (keyring >= 46 has no ssh component)
+exec_always dbus-update-activation-environment --systemd SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/gcr/ssh
 # exec_always sh -c 'pkill -x waybar; /usr/bin/waybar &'
 # exec_always sh -c 'pkill -x swayosd-server; /usr/bin/swayosd-server &'
 exec /usr/bin/swayosd-server

@@ -1,10 +1,10 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 temp=$(sensors | awk '/Package id 0/ {print $4}' | tr -d '+°C')
 
 icon=""
-if [ "$temp" -gt 80 ]; then icon="🔥"
-elif [ "$temp" -gt 60 ]; then icon="🌡"
+if (( $(echo "$temp > 80" | bc) )); then icon="🔥"
+elif (( $(echo "$temp > 60" | bc) )); then icon="🌡"
 fi
 
 echo "{\"text\": \"$icon ${temp}°C\"}"
